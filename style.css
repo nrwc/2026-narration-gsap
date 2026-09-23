@@ -1,0 +1,173 @@
+/* Bases ----------------------------*/
+*{
+    margin: 0px;
+    padding: 0px;
+
+
+}
+
+
+
+
+/* Variables ----------------------------*/
+
+
+
+
+
+/* Typographies ----------------------------*/
+
+
+
+
+
+/* Design de la page ----------------------------*/
+/* Design de la page */
+
+.h100 {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-light {
+    background-color: #EAEAEA;
+}
+
+.bg-dark {
+    background-color: #2b2b2b;
+}
+
+#section1 {
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+    background-image: url("assets/imagevolsolAF.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.plane {
+    display: block;
+    width: auto;
+    max-width: min(600px, 86vw);
+    height: auto;
+    max-height: 70vh;
+    max-height: 70svh;
+}
+
+#section4 {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-image: url("assets/fondvoyageAFDrag.jfif");
+    background-size: cover;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.plane-draggable {
+    position: relative;
+    z-index: 3;
+    display: block;
+    width: auto;
+    max-width: min(400px, 86vw);
+    height: auto;
+    max-height: 60vh;
+    max-height: 60svh;
+    user-select: none;
+}
+
+.airport-zone {
+    position: absolute;
+    pointer-events: none;
+}
+
+.airport-card {
+    position: absolute;
+    z-index: 4;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    box-sizing: border-box;
+    width: min(560px, calc(100% - 32px));
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-top: 3px solid #e52330;
+    border-radius: 18px;
+    background-color: #fff;
+    color: #102747;
+    box-shadow: 0 16px 48px #08244440;
+    font-family: Arial, sans-serif;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.airport-card-image {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 110px;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+    border: 1px dashed #9aafc5;
+    border-radius: 10px;
+    background-color: #edf3f8;
+    color: #506982;
+    font-size: 12px;
+    text-align: center;
+    object-fit: cover;
+}
+
+.airport-card-label {
+    color: #63758a;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.airport-card h2 {
+    margin: 6px 0 10px;
+    font-size: 22px;
+    line-height: 1.15;
+}
+
+.airport-card p {
+    color: #506174;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .airport-card {
+        bottom: 16px;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .airport-card h2 {
+        font-size: 18px;
+    }
+
+    .airport-card p {
+        font-size: 12px;
+    }
+}
+
+.block{
+background-color: black;
+width: 200px;
+height: 200px;
+
+}

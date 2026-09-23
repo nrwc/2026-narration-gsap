@@ -1,19 +1,56 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+
+    <!----Section 1--------------------->
+<section id="section1" class="h100 bg-light">
+   <img id="movingBlock1" class="plane" src="assets/aviontopAF.png" width="1239" height="1270" alt="Avion Air France vu de dessus">
+</section>
+
+    <!-- Section 2 -->
+<section id="section2" class="h100 bg-dark">
+    <div id="movingBlock2" class="block"></div>
+</section>
+
+    <!-- Section 3 -->
+<section id="section3" class="h100 bg-light">
+    <div id="movingBlock3" class="block"></div>
+</section>
+
+<!-- Section 4 -->
+<section id="section4" class="h100 bg-light">
+    <div id="zoneAeroport" class="airport-zone" aria-hidden="true"></div>
+    <img id="movingBlock4" class="plane-draggable" src="assets/avionsideA350AF.png" width="2172" height="724" alt="Airbus A350 Air France vu de profil" draggable="false">
+
+    <article id="carteAeroport" class="airport-card" aria-labelledby="titreCarteAeroport" aria-hidden="true">
+        <!-- Remplacer ce bloc par une image quand elle sera disponible. -->
+        <div class="airport-card-image">Image de la destination</div>
+        <div class="airport-card-content">
+            <span class="airport-card-label">Votre escale</span>
+            <h2 id="titreCarteAeroport">Bienvenue à destination</h2>
+            <p>Votre A350 rejoint l’aéroport. Une nouvelle étape du voyage commence ici, entre ciel et mer.</p>
+        </div>
+    </article>
+</section>
+
+
     <!----------Script------------------>
     <script src="JS/GSAP/gsap.min.js"></script>
-    <scriipt src="JS/GSAP/Draggable.min.js"></script>
-    <script src="JS/GSAP/MotionPathPlugin.min.js"></script>
-    <script src="JS/GSAP/ScrollToPlugin.min.js"></script>
-    <script src="JS/GSAP/ScrollTrigger.min.js"></script>
+<script src="JS/GSAP/Draggable.min.js"></script>
+<script src="JS/GSAP/MotionPathPlugin.min.js"></script>
+<script src="JS/GSAP/ScrollToPlugin.min.js"></script>
+<script src="JS/GSAP/ScrollTrigger.min.js"></script>
+<script src="JS/GSAP/InertiaPlugin.min.js"></script>
 
-    <!------------Main------------------>
+<script src="JS/main.js"></script>
+
 
 </body>
 </html>
