@@ -1,29 +1,33 @@
-/* Bases ----------------------------*/
-*{
-    margin: 0px;
-    padding: 0px;
-
-
+/* Police locale : Regular pour les textes, Bold pour les titres et les repères. */
+@font-face {
+    font-family: "Outfit";
+    src: url("assets/Outfit-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
+@font-face {
+    font-family: "Outfit";
+    src: url("assets/Outfit-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 
+/* Styles communs : bases et cartes -------------------------------- */
 
+/* Enlève les marges par défaut du navigateur pour maîtriser la mise en page. */
+* {
+    margin: 0;
+    padding: 0;
+}
 
-/* Variables ----------------------------*/
+body {
+    font-family: "Outfit", Arial, sans-serif;
+}
 
-
-
-
-
-/* Typographies ----------------------------*/
-
-
-
-
-
-/* Design de la page ----------------------------*/
-/* Design de la page */
-
+/* Donne aux sections au moins une hauteur d'écran. */
 .h100 {
     min-height: 100vh;
     display: flex;
@@ -31,6 +35,7 @@
     align-items: center;
 }
 
+/* Couleurs de fond utilisées notamment derrière les images. */
 .bg-light {
     background-color: #EAEAEA;
 }
@@ -39,27 +44,155 @@
     background-color: #2b2b2b;
 }
 
+/* Style partagé : fond blanc, coins arrondis, ombre et largeur maximale de 320 px. */
+.flight-card {
+    position: relative;
+    z-index: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: 320px;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background-color: #fff;
+    color: #102747;
+    box-shadow: 0 14px 38px #08244440;
+}
+
+.flight-card-media {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #edf3f8;
+    color: #63758a;
+    font-size: 13px;
+}
+
+.flight-card-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Espacement intérieur et typographie du titre et du texte des cartes. */
+.flight-card-content {
+    padding: 20px;
+}
+
+.flight-card h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.flight-card p {
+    color: #506174;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Section 1 : avion au scroll et cartes laterales -------------------------------- */
+
 #section1 {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: clamp(16px, 3vw, 56px);
+    justify-items: center;
+    box-sizing: border-box;
+    padding-inline: clamp(16px, 4vw, 64px);
     height: 100vh;
-    height: 100svh;
     min-height: 0;
     overflow: hidden;
     background-image: url("assets/imagevolsolAF.jpg");
-    background-size: cover;
+    background-size: cover; /* Couvre tout le fond sans étirer l'image. */
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .plane {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
     display: block;
     width: auto;
-    max-width: min(600px, 86vw);
+    max-width: min(600px, 100%);
     height: auto;
     max-height: 70vh;
-    max-height: 70svh;
 }
 
-#section4 {
+.flight-card-left {
+    grid-column: 1;
+}
+
+.flight-card-right {
+    grid-column: 3;
+}
+
+/* Section 2 : moteur, pales et cartes -------------------------------- */
+
+.engine-scene,
+.engine-visual {
+    position: relative;
+    width: 100%;
+}
+
+.engine-card {
+    position: absolute;
+    left: 4%;
+    width: min(320px, 24%);
+}
+
+.engine-card-top {
+    top: 6%;
+}
+
+.engine-card-bottom {
+    bottom: 6%;
+}
+
+/* La photo prend toute la largeur en conservant ses proportions. */
+.engine-body {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.engine-fan {
+    position: absolute;
+    left: 52.25%;
+    top: 54.75%;
+    width: 40.5%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) scaleY(0.95);
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #050505;
+    pointer-events: none;
+}
+
+/* Ce bloc est animé en rotation par le JS. */
+.engine-rotor {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 50%;
+}
+
+.engine-rotor img {
+    position: absolute;
+    left: -4.75%;
+    top: -3.75%;
+    width: 109%;
+    height: 109%;
+    display: block;
+}
+
+/* Section 3 : avion draggable, zones et cartes -------------------------------- */
+
+#section3 {
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -69,24 +202,95 @@
     background-repeat: no-repeat;
 }
 
+.travel-guide {
+    position: absolute;
+    top: 3%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    width: 80%;
+    max-width: 440px;
+    margin-inline: auto;
+    color: #102747;
+    text-align: center;
+    pointer-events: none;
+}
+
+.travel-guide h2 {
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+.travel-guide p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Limite la taille de l'avion à déplacer. */
 .plane-draggable {
     position: relative;
     z-index: 3;
     display: block;
     width: auto;
-    max-width: min(400px, 86vw);
+    max-width: 400px;
     height: auto;
     max-height: 60vh;
-    max-height: 60svh;
     user-select: none;
 }
 
-.airport-zone {
+/* Zones de détection invisibles : elles ne bloquent pas les gestes de la souris. */
+.airport-zone,
+.arrival-zone,
+.sky-zone {
     position: absolute;
     pointer-events: none;
 }
 
-.airport-card {
+.airport-zone,
+.arrival-zone {
+    top: 67%;
+    width: 22%;
+    height: 17%;
+}
+
+.airport-zone {
+    left: 0;
+}
+
+.arrival-zone {
+    right: 0;
+}
+
+.sky-zone {
+    top: 10%;
+    left: 50%;
+    width: min(280px, 28%);
+    height: min(110px, 14%);
+    transform: translateX(-50%);
+}
+
+.zone-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 7px 12px;
+    border-radius: 20px;
+    background-color: #ffffffeb;
+    color: #102747;
+    box-shadow: 0 4px 12px #08244426;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.sky-zone .zone-label {
+    top: 100%;
+    bottom: auto;
+}
+
+/* Cartes cachées au départ ; le JS gère leur apparition. */
+.travel-card {
     position: absolute;
     z-index: 4;
     bottom: 24px;
@@ -94,80 +298,20 @@
     right: 0;
     margin-inline: auto;
     box-sizing: border-box;
-    width: min(560px, calc(100% - 32px));
-    display: grid;
-    grid-template-columns: 140px minmax(0, 1fr);
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    border-top: 3px solid #e52330;
-    border-radius: 18px;
-    background-color: #fff;
-    color: #102747;
-    box-shadow: 0 16px 48px #08244440;
-    font-family: Arial, sans-serif;
+    width: 320px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    pointer-events: none;
+    pointer-events: none; /* Permet de continuer à saisir l'avion derrière une carte. */
 }
 
-.airport-card-image {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 110px;
-    display: grid;
-    place-items: center;
-    padding: 12px;
-    border: 1px dashed #9aafc5;
-    border-radius: 10px;
-    background-color: #edf3f8;
-    color: #506982;
-    font-size: 12px;
-    text-align: center;
-    object-fit: cover;
-}
-
-.airport-card-label {
+/* Étiquettes des cartes : Départ, En plein vol ou Arrivée. */
+.travel-card-label {
+    display: block;
+    margin-bottom: 6px;
     color: #63758a;
     font-size: 10px;
     font-weight: bold;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-}
-
-.airport-card h2 {
-    margin: 6px 0 10px;
-    font-size: 22px;
-    line-height: 1.15;
-}
-
-.airport-card p {
-    color: #506174;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-@media (max-width: 480px) {
-    .airport-card {
-        bottom: 16px;
-        grid-template-columns: 92px minmax(0, 1fr);
-        gap: 12px;
-        padding: 14px;
-    }
-
-    .airport-card h2 {
-        font-size: 18px;
-    }
-
-    .airport-card p {
-        font-size: 12px;
-    }
-}
-
-.block{
-background-color: black;
-width: 200px;
-height: 200px;
-
 }

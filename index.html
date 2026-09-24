@@ -1,56 +1,143 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <!-- UTF-8 permet d'afficher les accents. -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Voyage en A350 — Du ciel à destination</title>
+        <!-- Ce fichier définit l'apparence de toutes les sections. -->
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
 
+        <!-- Section 1 : avion au scroll et cartes latérales -->
+        <section id="section1" class="h100 bg-light" aria-label="Le voyage vu du ciel">
+            <!-- Les deux cartes gardent leur place pendant que l'avion traverse la section. -->
+            <article class="flight-card flight-card-left" aria-labelledby="titreCarteGauche">
+                <div class="flight-card-media">
+                    <span>Image à venir</span>
+                </div>
+                <div class="flight-card-content">
+                    <h2 id="titreCarteGauche">Prendre de la hauteur</h2>
+                    <p>Le sol s’éloigne. L’A350 ouvre un nouveau chapitre du voyage.</p>
+                </div>
+            </article>
 
-    <!----Section 1--------------------->
-<section id="section1" class="h100 bg-light">
-   <img id="movingBlock1" class="plane" src="assets/aviontopAF.png" width="1239" height="1270" alt="Avion Air France vu de dessus">
-</section>
+            <img id="movingBlock1" class="plane" src="assets/aviontopAF.png" width="1239" height="1270" alt="Avion Air France vu de dessus">
 
-    <!-- Section 2 -->
-<section id="section2" class="h100 bg-dark">
-    <div id="movingBlock2" class="block"></div>
-</section>
+            <article class="flight-card flight-card-right" aria-labelledby="titreCarteDroite">
+                <div class="flight-card-media">
+                    <span>Image à venir</span>
+                </div>
+                <div class="flight-card-content">
+                    <h2 id="titreCarteDroite">Le paysage défile</h2>
+                    <p>Champs et routes deviennent des lignes. Le vol trouve son rythme.</p>
+                </div>
+            </article>
+        </section>
 
-    <!-- Section 3 -->
-<section id="section3" class="h100 bg-light">
-    <div id="movingBlock3" class="block"></div>
-</section>
+        <!-- Section 2 : moteur, pales et cartes -->
+        <section id="section2" class="h100 bg-dark" aria-label="Au cœur du moteur">
+            <div class="engine-scene">
+                <article class="flight-card engine-card engine-card-top" aria-labelledby="titreCarteMoteurHaut">
+                    <div class="flight-card-media">
+                        <img src="assets/silencieuxmoteurAF.jpg" width="1612" height="1075" alt="Personne se reposant dans un siège d’avion allongé">
+                    </div>
+                    <div class="flight-card-content">
+                        <h2 id="titreCarteMoteurHaut">Le calme en altitude</h2>
+                        <p>Un moteur très silencieux pour dormir confortablement et profiter d’un vol paisible.</p>
+                    </div>
+                </article>
 
-<!-- Section 4 -->
-<section id="section4" class="h100 bg-light">
-    <div id="zoneAeroport" class="airport-zone" aria-hidden="true"></div>
-    <img id="movingBlock4" class="plane-draggable" src="assets/avionsideA350AF.png" width="2172" height="724" alt="Airbus A350 Air France vu de profil" draggable="false">
+                <div class="engine-visual">
+                    <img class="engine-body" src="assets/moteurA350AF-hd.png" width="1536" height="1024" alt="Moteur d’Airbus A350 vu de face" draggable="false">
+                    <div class="engine-fan" aria-hidden="true">
+                        <div id="movingBlock2" class="engine-rotor">
+                            <img src="assets/PalesMoteurAF.jpg" width="1254" height="1254" alt="" draggable="false">
+                        </div>
+                    </div>
+                </div>
 
-    <article id="carteAeroport" class="airport-card" aria-labelledby="titreCarteAeroport" aria-hidden="true">
-        <!-- Remplacer ce bloc par une image quand elle sera disponible. -->
-        <div class="airport-card-image">Image de la destination</div>
-        <div class="airport-card-content">
-            <span class="airport-card-label">Votre escale</span>
-            <h2 id="titreCarteAeroport">Bienvenue à destination</h2>
-            <p>Votre A350 rejoint l’aéroport. Une nouvelle étape du voyage commence ici, entre ciel et mer.</p>
-        </div>
-    </article>
-</section>
+                <article class="flight-card engine-card engine-card-bottom" aria-labelledby="titreCarteMoteurBas">
+                    <div class="flight-card-media">
+                        <img src="assets/imageinsidemoteurAFko.jpg" width="1734" height="1156" alt="Moteur d’avion sans sa nacelle, montrant ses composants internes">
+                    </div>
+                    <div class="flight-card-content">
+                        <h2 id="titreCarteMoteurBas">Voler plus loin</h2>
+                        <p>Grâce à sa faible consommation, le Trent XWB contribue à l’autonomie de l’A350 sur les vols long-courriers.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
 
+        <!-- Section 3 : avion draggable, zones et cartes -->
+        <section id="section3" class="h100 bg-light" aria-labelledby="titreVoyage">
+            <div class="travel-guide">
+                <h2 id="titreVoyage">À vous de piloter</h2>
+                <p>Glissez l’avion du départ au ciel, puis vers l’arrivée.</p>
+            </div>
 
-    <!----------Script------------------>
-    <script src="JS/GSAP/gsap.min.js"></script>
-<script src="JS/GSAP/Draggable.min.js"></script>
-<script src="JS/GSAP/MotionPathPlugin.min.js"></script>
-<script src="JS/GSAP/ScrollToPlugin.min.js"></script>
-<script src="JS/GSAP/ScrollTrigger.min.js"></script>
-<script src="JS/GSAP/InertiaPlugin.min.js"></script>
+            <!-- Chaque zone possède un repère et déclenche sa carte au passage de l'avion. -->
+            <div id="zoneAeroport" class="airport-zone" aria-hidden="true">
+                <span class="zone-label">Départ</span>
+            </div>
+            <div id="zoneArrivee" class="arrival-zone" aria-hidden="true">
+                <span class="zone-label">Arrivée</span>
+            </div>
+            <div id="zoneCiel" class="sky-zone" aria-hidden="true">
+                <span class="zone-label">En vol</span>
+            </div>
+            <img id="movingBlock3" class="plane-draggable" src="assets/avionsideA350AF.png" width="2172" height="724" alt="Airbus A350 Air France vu de profil" draggable="false">
 
-<script src="JS/main.js"></script>
+            <!-- Chaque carte est cachée au départ ; aria-labelledby l'associe à son titre. -->
+            <!-- Carte de la zone de gauche : départ. -->
+            <article id="carteAeroport" class="flight-card travel-card" aria-labelledby="titreCarteAeroport" aria-hidden="true">
+                <div class="flight-card-media">
+                    <img src="assets/loungeAF.jpg" width="3000" height="1686" alt="Salon Air France avec fauteuils et espace de détente">
+                </div>
+                <div class="flight-card-content">
+                    <span class="travel-card-label">Départ</span>
+                    <h2 id="titreCarteAeroport">Le salon Air France</h2>
+                    <p>Avant le décollage, profitez d’une parenthèse de calme au salon Air France.</p>
+                </div>
+            </article>
 
+            <!-- Carte de la petite zone en haut : vol. -->
+            <article id="carteCiel" class="flight-card travel-card" aria-labelledby="titreCarteCiel" aria-hidden="true">
+                <div class="flight-card-media">
+                    <img src="assets/businessAF.jpg" width="690" height="442" alt="Cabine Business Air France">
+                </div>
+                <div class="flight-card-content">
+                    <span class="travel-card-label">En plein vol</span>
+                    <h2 id="titreCarteCiel">La Business Air France</h2>
+                    <p>Installez-vous en Business et savourez un voyage tout en confort.</p>
+                </div>
+            </article>
 
-</body>
+            <!-- Carte de la zone de droite : arrivée. -->
+            <article id="carteArrivee" class="flight-card travel-card" aria-labelledby="titreCarteArrivee" aria-hidden="true">
+                <div class="flight-card-media">
+                    <img src="assets/iamgevacancesAF.jpg" width="740" height="492" alt="Transat et chapeau de paille sur une plage">
+                </div>
+                <div class="flight-card-content">
+                    <span class="travel-card-label">Arrivée</span>
+                    <h2 id="titreCarteArrivee">Place aux vacances</h2>
+                    <p>Vous êtes arrivé : place à la détente, au soleil et aux nouveaux souvenirs.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- Scripts GSAP et animations -->
+        <!-- Charge GSAP avant ses extensions pour qu'elles puissent l'utiliser. -->
+        <script src="JS/GSAP/gsap.min.js"></script>
+        <script src="JS/GSAP/Draggable.min.js"></script>
+        <script src="JS/GSAP/MotionPathPlugin.min.js"></script>
+        <script src="JS/GSAP/ScrollToPlugin.min.js"></script>
+        <script src="JS/GSAP/ScrollTrigger.min.js"></script>
+        <script src="JS/GSAP/InertiaPlugin.min.js"></script>
+
+        <!-- Notre code est chargé en dernier, une fois le HTML et les extensions disponibles. -->
+        <script src="JS/main.js"></script>
+
+    </body>
 </html>
