@@ -1,4 +1,4 @@
-/* Police locale : Regular pour les textes, Bold pour les titres et les repères. */
+/* Police locale : ------------------------------- */
 @font-face {
     font-family: "Outfit";
     src: url("assets/Outfit-Regular.ttf") format("truetype");
@@ -17,7 +17,6 @@
 
 /* Styles communs : bases et cartes -------------------------------- */
 
-/* Enlève les marges par défaut du navigateur pour maîtriser la mise en page. */
 * {
     margin: 0;
     padding: 0;
@@ -93,6 +92,36 @@ body {
     line-height: 1.5;
 }
 
+@media (max-width: 760px) {
+    .flight-card {
+        grid-row: 2;
+    }
+}
+
+/* Sur un écran peu haut, réduit l'image pour laisser de la place au texte. */
+@media (max-height: 520px) {
+    .flight-card-media {
+        aspect-ratio: auto;
+        height: 20vh;
+        height: 20svh;
+    }
+}
+
+/* Réduit les espacements et les textes si l'écran est étroit OU peu haut. */
+@media (max-width: 760px), (max-height: 520px) {
+    .flight-card-content {
+        padding: 12px;
+    }
+
+    .flight-card h2 {
+        font-size: 18px;
+    }
+
+    .flight-card p {
+        font-size: 13px;
+    }
+}
+
 /* Section 1 : avion au scroll et cartes laterales -------------------------------- */
 
 #section1 {
@@ -105,6 +134,7 @@ body {
     box-sizing: border-box;
     padding-inline: clamp(16px, 4vw, 64px);
     height: 100vh;
+    height: 100svh; /* Hauteur stable sur mobile, même avec les barres du navigateur. */
     min-height: 0;
     overflow: hidden;
     background-image: url("assets/imagevolsolAF.jpg");
@@ -122,6 +152,7 @@ body {
     max-width: min(600px, 100%);
     height: auto;
     max-height: 70vh;
+    max-height: 70svh;
 }
 
 .flight-card-left {
@@ -130,6 +161,25 @@ body {
 
 .flight-card-right {
     grid-column: 3;
+}
+
+@media (max-width: 760px) {
+    #section1 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .plane {
+        grid-column: 1 / -1;
+        max-height: min(38vh, 100%);
+        max-height: min(38svh, 100%);
+    }
+
+    .flight-card-right {
+        grid-column: 2;
+    }
 }
 
 /* Section 2 : moteur, pales et cartes -------------------------------- */
@@ -152,6 +202,26 @@ body {
 
 .engine-card-bottom {
     bottom: 6%;
+}
+
+@media (max-width: 1000px) {
+    .engine-scene {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 24px;
+        padding-block: 24px;
+        background-color: #f3f5f8;
+    }
+
+    .engine-card {
+        position: relative;
+        grid-row: auto;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        width: min(320px, calc(100% - 32px));
+    }
 }
 
 /* La photo prend toute la largeur en conservant ses proportions. */
@@ -232,9 +302,10 @@ body {
     z-index: 3;
     display: block;
     width: auto;
-    max-width: 400px;
+    max-width: min(400px, 86vw);
     height: auto;
     max-height: 60vh;
+    max-height: 60svh;
     user-select: none;
 }
 
@@ -289,6 +360,11 @@ body {
     bottom: auto;
 }
 
+.is-active .zone-label {
+    background-color: #102747;
+    color: #fff;
+}
+
 /* Cartes cachées au départ ; le JS gère leur apparition. */
 .travel-card {
     position: absolute;
@@ -298,7 +374,7 @@ body {
     right: 0;
     margin-inline: auto;
     box-sizing: border-box;
-    width: 320px;
+    width: min(320px, calc(100% - 32px));
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
@@ -314,4 +390,10 @@ body {
     font-weight: bold;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+    .travel-card {
+        bottom: 16px;
+    }
 }

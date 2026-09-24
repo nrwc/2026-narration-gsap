@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable, MotionPathPlugin, 
 /* Section 1 : avion au scroll ----------------------------------- */
 
 // L'avion traverse la section du haut vers le bas, au rythme du scroll.
-// 100vh correspond à une hauteur d'écran : l'avion commence et finit hors de la section.
+// pour que l'avion commence et finit hors de la section.
 let animationAvion = gsap.fromTo("#movingBlock1", {
     y: "-100vh",
     rotation: 180,
@@ -21,14 +21,12 @@ let animationAvion = gsap.fromTo("#movingBlock1", {
         pin: true, // Maintient la section à l'écran pendant cette animation.
         markers: false,
         id: "section1",
-        invalidateOnRefresh: true, // Adapte le trajet à la hauteur de l'écran.
+
     },
 });
 
 // Calcule l'espace du pin avant l'animation de la section 2.
 animationAvion.scrollTrigger.refresh();
-
-// Les deux cartes de cette section restent visibles dès le chargement.
 
 /* Section 2 : rotation des pales -------------------------------- */
 
@@ -42,12 +40,10 @@ gsap.to("#movingBlock2", {
         markers: false,
         id: "section2",
     },
-    rotation: 360 * 3, // Trois tours complets sur toute la traversée.
+    rotation: 1080, // Trois tours complets
     duration: 2,
-    ease: "none", // Pas d'accélération ajoutée à la progression de la rotation.
+    ease: "none", 
 });
-
-// Les deux cartes du moteur restent visibles, sans animation d'apparition.
 
 /* Section 3 : avion draggable et cartes ------------------------- */
 
@@ -56,96 +52,66 @@ let avionDraggable = document.querySelector("#movingBlock3");
 
 // Chaque étape associe une zone invisible à sa carte dans le HTML.
 // visible mémorise l'état de la carte pour éviter de relancer son animation.
-let depart = {
-    zone: document.querySelector("#zoneAeroport"),
-    carte: document.querySelector("#carteAeroport"),
-    visible: false,
+// document.querySelector() récupère le premier élément HTML correspondant à un sélecteur CSS.
+// Ici, "#movingBlock3" cible l'avion grâce à son id ; le # désigne un id, comme en CSS.
+// Si aucun élément ne correspond, querySelector() renvoie null.
+let etapesVoyage = {
+    depart: {
+        zone: document.querySelector("#zoneAeroport"),
+        carte: document.querySelector("#carteAeroport"),
+        visible: false,
+    },
+    ciel: {
+        zone: document.querySelector("#zoneCiel"),
+        carte: document.querySelector("#carteCiel"),
+        visible: false,
+    },
+    arrivee: {
+        zone: document.querySelector("#zoneArrivee"),
+        carte: document.querySelector("#carteArrivee"),
+        visible: false,
+    },
 };
 
-let ciel = {
-    zone: document.querySelector("#zoneCiel"),
-    carte: document.querySelector("#carteCiel"),
-    visible: false,
-};
-
-let arrivee = {
-    zone: document.querySelector("#zoneArrivee"),
-    carte: document.querySelector("#carteArrivee"),
-    visible: false,
-};
-
-// Cette fonction sert aux trois étapes. autorisee indique si la carte peut apparaître.
-function verifierCarte(etape, autorisee) {
-    // Le seuil de 25 % évite d'afficher une carte dès que l'avion effleure une zone.
-    let seuil = "25%";
-
-    // Une carte déjà visible reste affichée un peu plus longtemps pour éviter le clignotement.
-    if (etape.visible) {
-        seuil = "10%";
-    }
-
-    let dansZone = false;
-
-    if (autorisee) {
-        // hitTest vérifie si l'avion touche suffisamment la zone.
-        dansZone = Draggable.hitTest(avionDraggable, etape.zone, seuil);
-    }
+// Fonction commune aux trois cartes ; autorisee permet de donner priorité à une autre.
+function verifierCarte(etape, autorisee = true) {
+    // Plus de chevauchement est nécessaire à l'entrée qu'à la sortie : évite le clignotement.
+    let seuil = etape.visible ? "10%" : "25%";
+    // hitTest vérifie si le rectangle de l'avion recouvre suffisamment celui de la zone.
+    let dansZone = autorisee && Draggable.hitTest(avionDraggable, etape.zone, seuil);
 
     // Si rien n'a changé, on conserve l'animation en cours.
-    if (dansZone === etape.visible) {
-        return;
-    }
+    if (dansZone === etape.visible) return;
 
     etape.visible = dansZone;
+    etape.carte.setAttribute("aria-hidden", String(!dansZone)); // Informe aussi les lecteurs d'écran.
 
-    // Affiche la carte quand l'avion entre dans la zone, puis la cache quand il en sort.
-    // aria-hidden indique aussi aux lecteurs d'écran si la carte est cachée.
-    if (dansZone) {
-        etape.carte.setAttribute("aria-hidden", "false");
-        gsap.to(etape.carte, {
-            autoAlpha: 1, // Rend la carte visible.
-            y: 0,
-            duration: 0.3,
-            ease: "power2.out",
-            overwrite: true, // Remplace le fondu précédent si l'avion change vite de zone.
-        });
-    } else {
-        etape.carte.setAttribute("aria-hidden", "true");
-        gsap.to(etape.carte, {
-            autoAlpha: 0, // Cache la carte.
-            y: 20,
-            duration: 0.3,
-            ease: "power2.out",
-            overwrite: true,
-        });
-    }
+    // Affiche la carte en fondu et la remonte de 20 px ; fait l'inverse à la sortie.
+    gsap.to(etape.carte, {
+        autoAlpha: dansZone ? 1 : 0, // Gère ensemble l'opacité et la visibilité.
+        y: dansZone ? 0 : 20,
+        duration: 0.3,
+        ease: "power2.out",
+        overwrite: true, // Remplace l'animation précédente si l'on change vite de zone.
+    });
 }
 
 function verifierZonesAvion() {
-    // Vérifie d'abord le ciel : cette carte est prioritaire.
-    verifierCarte(ciel, true);
+    // L'avion part du centre : x est négatif à gauche et positif à droite.
+    let avionAGauche = dragAvion.x <= 0;
 
-    // true autorise la carte ; false la cache, même si l'avion touche sa zone.
-    if (ciel.visible) {
-        verifierCarte(depart, false);
-        verifierCarte(arrivee, false);
-    } else if (dragAvion.x <= 0) {
-        // L'avion est à gauche de sa position de départ.
-        verifierCarte(depart, true);
-        verifierCarte(arrivee, false);
-    } else {
-        // L'avion est à droite de sa position de départ.
-        verifierCarte(depart, false);
-        verifierCarte(arrivee, true);
-    }
+    // Le ciel est prioritaire ; sinon, une seule carte latérale est autorisée.
+    verifierCarte(etapesVoyage.ciel);
+    verifierCarte(etapesVoyage.depart, avionAGauche && !etapesVoyage.ciel.visible);
+    verifierCarte(etapesVoyage.arrivee, !avionAGauche && !etapesVoyage.ciel.visible);
 }
 
 // Active le glisser-déposer. [0] récupère l'instance de cet avion dans la liste créée.
 let dragAvion = Draggable.create("#movingBlock3", {
-    bounds: "#section3", // L'avion reste dans les limites de la section.
-    inertia: true, // Continue un peu le mouvement après le relâchement.
-    dragResistance: 0, // Suit la souris sans résistance.
-    minimumMovement: 1, // Le drag commence dès un déplacement de 1 px.
+    bounds: "#section3", // pour pas que ca sorte de l'ecran
+    inertia: true, 
+    dragResistance: 0, // 0 resitance
+    minimumMovement: 1, 
     cursor: "grab",
     activeCursor: "grabbing",
     zIndexBoost: false, // Conserve l'ordre d'affichage défini dans le CSS.
@@ -159,9 +125,4 @@ let dragAvion = Draggable.create("#movingBlock3", {
 window.addEventListener("resize", function () {
     dragAvion.applyBounds();
     verifierZonesAvion();
-});
-
-// Une fois la page chargée, actualise les repères des animations au scroll.
-window.addEventListener("load", function () {
-    ScrollTrigger.refresh();
 });
